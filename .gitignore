@@ -2,4 +2,5 @@
 *.ipynb
 *.html
 *.odt
+*/pictures
 document_converter.py
