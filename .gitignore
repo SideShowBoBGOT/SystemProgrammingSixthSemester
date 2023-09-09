@@ -1,0 +1,5 @@
+*.idea
+*.ipynb
+*.html
+*.odt
+document_converter.py
