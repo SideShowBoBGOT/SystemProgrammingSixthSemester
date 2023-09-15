@@ -1,0 +1,22 @@
+/snap/clion/250/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/250/bin/ninja/linux/x64/ninja -G Ninja -S /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5 -B /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug
+CMake Error at CMakeLists.txt:32 (find_package):
+  By not providing "FindFUSE.cmake" in CMAKE_MODULE_PATH this project has
+  asked CMake to find a package configuration file provided by "FUSE", but
+  CMake did not find one.
+
+  Could not find a package configuration file provided by "FUSE" with any of
+  the following names:
+
+    FUSEConfig.cmake
+    fuse-config.cmake
+
+  Add the installation prefix of "FUSE" to CMAKE_PREFIX_PATH or set
+  "FUSE_DIR" to a directory containing one of the above files.  If "FUSE"
+  provides a separate development package or SDK, be sure it has been
+  installed.
+
+
+-- Configuring incomplete, errors occurred!
+
+Problems were encountered while collecting compiler information:
+	c++: error: unrecognized command-line option '-Wall;-D_FILE_OFFSET_BITS=64'
