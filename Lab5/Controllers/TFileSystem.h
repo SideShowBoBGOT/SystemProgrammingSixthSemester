@@ -8,9 +8,7 @@
 
 #include <fuse3/fuse.h>
 
-#include "TCommonDeclarations.h"
-
-class TNotDirectoryException;
+#include "../Models/TCommonDeclarations.h"
 
 class TFileSystem {
     public:
@@ -25,8 +23,11 @@ class TFileSystem {
     static int ReadLink(const char *path, char *buffer, size_t size);
 
     private:
-    [[nodiscard]] static std::expected<TStrongFileVariant, TNotDirectoryException> Find(const std::string_view& path);
-    static std::vector<std::string_view> ParsePath(const std::string_view& path);
+    [[nodiscard]] static auto Find(const std::string_view& path)
+        -> std::expected<TStrongFileVariant, TFileSystemVariantException>;
+
+    static std::vector<std::string_view> PathToNames(const std::string_view& path);
+    static std::string NamesToPath(const std::vector<std::string_view>& names, long endPos);
 
     private:
     static const TStrongDirectory s_pRootDir;

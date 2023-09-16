@@ -6,7 +6,7 @@
 
 struct SFileSystemInfo {
     SFileSystemInfo()=default;
-    SFileSystemInfo(const std::string& name, uid_t uid, gid_t gid, time_t atime, time_t mtime, mode_t mode);
+    SFileSystemInfo(const std::string& name);
 
     std::string Name{};
     uid_t Uid{};

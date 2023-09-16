@@ -9,7 +9,7 @@
 struct SDirectory;
 
 struct SFile {
-    SFile(const SFileSystemInfo& info, const TStrongDirectory& parentDir);
+    SFile(const SFileSystemInfo& info, const TNullableDirectory& parentDir);
 
     SFileSystemInfo Info;
     std::vector<std::byte> Content;

@@ -1,12 +1,14 @@
 #include <ranges>
+#include <algorithm>
 
 #include "TFileSystem.h"
-#include "SDirectory.h"
-#include "SLink.h"
-#include "SFile.h"
-#include "SOverloadVariant.h"
+#include "../Models/SDirectory.h"
+#include "../Models/SLink.h"
+#include "../Models/SFile.h"
+#include "../Helpers/SOverloadVariant.h"
+#include "../Models/Errors/TPathException.h"
 
-#include "Errors/TNotDirectoryException.h"
+const TStrongDirectory TFileSystem::s_pRootDir = std::make_shared<SDirectory>(SFileSystemInfo(""), nullptr);
 
 int TFileSystem::GetAttr(const char *path, struct stat *st) {
 
@@ -46,8 +48,8 @@ int TFileSystem::ReadLink(const char *path, char *buffer, size_t size) {
     return 0;
 }
 
-std::expected<TStrongFileVariant, TNotDirectoryException> TFileSystem::Find(const std::string_view& path) {
-    const auto names = ParsePath(path);
+std::expected<TStrongFileVariant, TFileSystemVariantException> TFileSystem::Find(const std::string_view& path) {
+    const auto names = PathToNames(path);
     if(names.empty()) return s_pRootDir;
 
     auto tempDir = s_pRootDir;
@@ -63,20 +65,22 @@ std::expected<TStrongFileVariant, TNotDirectoryException> TFileSystem::Find(cons
             }
         );
         if(it==tempDir->FileVariants.end()) {
-            return std::nullopt;
+            return std::unexpected(TFileObjectNotExistException(NamesToPath(names, index)));
         }
         if(index == names.size() - 1) {
             return *it;
         }
-
-
+        if(const auto t = std::get_if<TStrongDirectory>(&*it)) {
+            tempDir = *t;
+            continue;
+        }
+        return std::unexpected(TNotDirectoryException(NamesToPath(names, index)));
     }
 
-
-    return std::nullopt;
+    return std::unexpected(TFileObjectNotExistException(NamesToPath(names, static_cast<long>(names.size()) - 1)));
 }
 
-std::vector<std::string_view> TFileSystem::ParsePath(const std::string_view& path) {
+std::vector<std::string_view> TFileSystem::PathToNames(const std::string_view& path) {
     auto names = std::vector<std::string_view>();
     auto temp = path;
     while(!temp.empty()) {
@@ -89,4 +93,12 @@ std::vector<std::string_view> TFileSystem::ParsePath(const std::string_view& pat
         temp = temp.substr(secondSlashPos);
     }
     return names;
+}
+
+std::string TFileSystem::NamesToPath(const std::vector<std::string_view>& names, long endPos) {
+    auto path = std::string();
+    for(const auto& el : std::views::take(names, endPos + 1)) {
+        path += "/" + std::string(el.begin(), el.end());
+    }
+    return path;
 }

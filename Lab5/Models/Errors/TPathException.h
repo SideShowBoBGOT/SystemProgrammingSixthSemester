@@ -10,6 +10,7 @@
         T##name##Exception()=default;\
         explicit T##name##Exception(const std::string_view& path);\
         virtual const char* what() const noexcept override;\
+                                    \
         protected:\
         std::string m_sMessage;\
     };

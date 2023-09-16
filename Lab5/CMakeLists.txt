@@ -6,20 +6,20 @@ set(CMAKE_CXX_FLAGS -Wall)
 
 
 add_executable(${PROJECT_NAME} main.cpp
-        TFileSystem.cpp
-        TFileSystem.h
-        SFileSystemInfo.cpp
-        SFileSystemInfo.h
-        SDirectory.cpp
-        SDirectory.h
-        SLink.cpp
-        SLink.h
-        SFile.cpp
-        SFile.h
-        TCommonDeclarations.h
-        SOverloadVariant.h
-        Errors/TPathException.cpp
-        Errors/TPathException.h
+        Controllers/TFileSystem.cpp
+        Controllers/TFileSystem.h
+        Models/SFileSystemInfo.cpp
+        Models/SFileSystemInfo.h
+        Models/SDirectory.cpp
+        Models/SDirectory.h
+        Models/SLink.cpp
+        Models/SLink.h
+        Models/SFile.cpp
+        Models/SFile.h
+        Models/TCommonDeclarations.h
+        Helpers/SOverloadVariant.h
+        Models/Errors/TPathException.cpp
+        Models/Errors/TPathException.h
 )
 
 include(FetchContent)
