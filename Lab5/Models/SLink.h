@@ -4,14 +4,11 @@
 #include "TCommonDeclarations.h"
 #include "SFileSystemInfo.h"
 
-struct SFile;
-struct SDirectory;
-
 struct SLink {
-    SLink(const std::string& name, const TWeakFileVariant& fileVariant, const TNullableDirectory& parentDir);
+    SLink(const std::string& name, const std::string& linkTo, const TNullableDirectory& parentDir);
 
     SFileSystemInfo Info;
-    TWeakFileVariant FileVariant;
+    std::string LinkTo;
     TWeakDirectory ParentDir;
 };
 

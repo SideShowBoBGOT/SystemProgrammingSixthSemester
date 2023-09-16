@@ -13,13 +13,13 @@
 class TFileSystem {
     public:
     static int GetAttr(const char *path, struct stat *st);
+    static int SymLink(const char *target_path, const char *link_path);
     static int MkDir(const char *path, mode_t mode);
     static int ReadDir(const char *path, void *buffer, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi);
     static int MkNod(const char *path, mode_t mode, dev_t rdev);
     static int Read(const char *path, char *buffer, size_t size, off_t offset, struct fuse_file_info *fi);
     static int Write(const char *path, const char *buffer, size_t size, off_t offset, struct fuse_file_info *info);
     static int ChMod(const char *path, mode_t mode);
-    static int SymLink(const char *target_path, const char *link_path);
     static int ReadLink(const char *path, char *buffer, size_t size);
 
     private:

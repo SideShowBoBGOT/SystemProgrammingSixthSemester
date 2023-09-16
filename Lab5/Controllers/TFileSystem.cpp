@@ -1,5 +1,6 @@
 #include <ranges>
 #include <algorithm>
+#include <iostream>
 
 #include "TFileSystem.h"
 #include "../Models/SDirectory.h"
@@ -10,8 +11,43 @@
 
 const TStrongDirectory TFileSystem::s_pRootDir = std::make_shared<SDirectory>("", nullptr);
 
-int TFileSystem::GetAttr(const char *path, struct stat *st) {
+static auto ModifyAttr(const auto& fileObject, struct stat *st) {
+    st->st_uid = fileObject->Info.Uid;
+    st->st_gid = fileObject->Info.Gid;
+    st->st_atime = fileObject->Info.Atime;
+    st->st_mtime = fileObject->Info.Mtime;
+    st->st_mode = fileObject->Info.Mode;
+}
 
+int TFileSystem::GetAttr(const char *path, struct stat *st) {
+    const auto result = Find(path);
+    if(!result) {
+        std::visit(SOverloadVariant{
+            [](const TNotDirectoryException& ex) { std::cout << ex.what() << "\n"; },
+            [](const TFileObjectNotExistException& ex) { std::cout << ex.what() << "\n"; }
+        }, result.error());
+        return -ENOENT;
+    }
+    std::visit(SOverloadVariant{
+        [st](const TStrongDirectory& dir) {
+            ModifyAttr(dir, st);
+            st->st_nlink = static_cast<nlink_t>(dir->FileVariants.size());
+        },
+        [st](const TStrongFile& file) {
+            ModifyAttr(file, st);
+            st->st_nlink = 1;
+            st->st_size = static_cast<off_t>(file->Content.size());
+        },
+        [st](const TStrongLink& link) {
+            ModifyAttr(link, st);
+            st->st_nlink = 2;
+            st->st_size = static_cast<off_t>(link->LinkTo.size());
+        }
+    }, result.value());
+    return 0;
+}
+
+int TFileSystem::SymLink(const char *target_path, const char *link_path) {
     return 0;
 }
 
@@ -37,10 +73,6 @@ int TFileSystem::Write(const char *path, const char *buffer, size_t size, off_t 
 }
 
 int TFileSystem::ChMod(const char *path, mode_t mode) {
-    return 0;
-}
-
-int TFileSystem::SymLink(const char *target_path, const char *link_path) {
     return 0;
 }
 
