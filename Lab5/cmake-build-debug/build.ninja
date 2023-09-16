@@ -51,45 +51,59 @@ build cmake_object_order_depends_target_Lab5: phony || CMakeFiles/Lab5.dir
 
 build CMakeFiles/Lab5.dir/main.cpp.o: CXX_COMPILER__Lab5_unscanned_Debug /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/main.cpp || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/main.cpp.o.d
-  FLAGS = -Wall -g -fdiagnostics-color=always
+  FLAGS = -Wall -g -std=gnu++23 -fdiagnostics-color=always
   INCLUDES = -I/usr/include/fuse3 -isystem /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-src/include
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
-build CMakeFiles/Lab5.dir/NNFileSystem.cpp.o: CXX_COMPILER__Lab5_unscanned_Debug /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/NNFileSystem.cpp || cmake_object_order_depends_target_Lab5
-  DEP_FILE = CMakeFiles/Lab5.dir/NNFileSystem.cpp.o.d
-  FLAGS = -Wall -g -fdiagnostics-color=always
+build CMakeFiles/Lab5.dir/TFileSystem.cpp.o: CXX_COMPILER__Lab5_unscanned_Debug /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/TFileSystem.cpp || cmake_object_order_depends_target_Lab5
+  DEP_FILE = CMakeFiles/Lab5.dir/TFileSystem.cpp.o.d
+  FLAGS = -Wall -g -std=gnu++23 -fdiagnostics-color=always
   INCLUDES = -I/usr/include/fuse3 -isystem /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-src/include
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
 build CMakeFiles/Lab5.dir/SFileSystemInfo.cpp.o: CXX_COMPILER__Lab5_unscanned_Debug /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/SFileSystemInfo.cpp || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/SFileSystemInfo.cpp.o.d
-  FLAGS = -Wall -g -fdiagnostics-color=always
+  FLAGS = -Wall -g -std=gnu++23 -fdiagnostics-color=always
   INCLUDES = -I/usr/include/fuse3 -isystem /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-src/include
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
 build CMakeFiles/Lab5.dir/SDirectory.cpp.o: CXX_COMPILER__Lab5_unscanned_Debug /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/SDirectory.cpp || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/SDirectory.cpp.o.d
-  FLAGS = -Wall -g -fdiagnostics-color=always
+  FLAGS = -Wall -g -std=gnu++23 -fdiagnostics-color=always
   INCLUDES = -I/usr/include/fuse3 -isystem /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-src/include
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
 build CMakeFiles/Lab5.dir/SLink.cpp.o: CXX_COMPILER__Lab5_unscanned_Debug /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/SLink.cpp || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/SLink.cpp.o.d
-  FLAGS = -Wall -g -fdiagnostics-color=always
+  FLAGS = -Wall -g -std=gnu++23 -fdiagnostics-color=always
   INCLUDES = -I/usr/include/fuse3 -isystem /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-src/include
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
 
 build CMakeFiles/Lab5.dir/SFile.cpp.o: CXX_COMPILER__Lab5_unscanned_Debug /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/SFile.cpp || cmake_object_order_depends_target_Lab5
   DEP_FILE = CMakeFiles/Lab5.dir/SFile.cpp.o.d
-  FLAGS = -Wall -g -fdiagnostics-color=always
+  FLAGS = -Wall -g -std=gnu++23 -fdiagnostics-color=always
   INCLUDES = -I/usr/include/fuse3 -isystem /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-src/include
   OBJECT_DIR = CMakeFiles/Lab5.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab5.dir
+
+build CMakeFiles/Lab5.dir/Errors/TNotDirectoryException.cpp.o: CXX_COMPILER__Lab5_unscanned_Debug /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/Errors/TNotDirectoryException.cpp || cmake_object_order_depends_target_Lab5
+  DEP_FILE = CMakeFiles/Lab5.dir/Errors/TNotDirectoryException.cpp.o.d
+  FLAGS = -Wall -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -I/usr/include/fuse3 -isystem /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-src/include
+  OBJECT_DIR = CMakeFiles/Lab5.dir
+  OBJECT_FILE_DIR = CMakeFiles/Lab5.dir/Errors
+
+build CMakeFiles/Lab5.dir/Errors/TPathException.cpp.o: CXX_COMPILER__Lab5_unscanned_Debug /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/Errors/TPathException.cpp || cmake_object_order_depends_target_Lab5
+  DEP_FILE = CMakeFiles/Lab5.dir/Errors/TPathException.cpp.o.d
+  FLAGS = -Wall -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -I/usr/include/fuse3 -isystem /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-src/include
+  OBJECT_DIR = CMakeFiles/Lab5.dir
+  OBJECT_FILE_DIR = CMakeFiles/Lab5.dir/Errors
 
 
 # =============================================================================
@@ -99,7 +113,7 @@ build CMakeFiles/Lab5.dir/SFile.cpp.o: CXX_COMPILER__Lab5_unscanned_Debug /home/
 #############################################
 # Link the executable Lab5
 
-build Lab5: CXX_EXECUTABLE_LINKER__Lab5_Debug CMakeFiles/Lab5.dir/main.cpp.o CMakeFiles/Lab5.dir/NNFileSystem.cpp.o CMakeFiles/Lab5.dir/SFileSystemInfo.cpp.o CMakeFiles/Lab5.dir/SDirectory.cpp.o CMakeFiles/Lab5.dir/SLink.cpp.o CMakeFiles/Lab5.dir/SFile.cpp.o
+build Lab5: CXX_EXECUTABLE_LINKER__Lab5_Debug CMakeFiles/Lab5.dir/main.cpp.o CMakeFiles/Lab5.dir/TFileSystem.cpp.o CMakeFiles/Lab5.dir/SFileSystemInfo.cpp.o CMakeFiles/Lab5.dir/SDirectory.cpp.o CMakeFiles/Lab5.dir/SLink.cpp.o CMakeFiles/Lab5.dir/SFile.cpp.o CMakeFiles/Lab5.dir/Errors/TNotDirectoryException.cpp.o CMakeFiles/Lab5.dir/Errors/TPathException.cpp.o
   FLAGS = -Wall -g
   LINK_LIBRARIES = -lfuse3  -lpthread
   OBJECT_DIR = CMakeFiles/Lab5.dir

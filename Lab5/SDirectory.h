@@ -2,6 +2,7 @@
 #define LAB5_SDIRECTORY_H
 
 #include <vector>
+#include <optional>
 
 #include <gsl/gsl>
 
@@ -9,13 +10,17 @@
 #include "SFileSystemInfo.h"
 
 struct SDirectory {
-    SDirectory(const SFileSystemInfo& info, const PDirectory& parentDir);
+    SDirectory(const SFileSystemInfo& info, const TStrongDirectory& parentDir);
 
     SFileSystemInfo Info;
-    WDirectory ParentDir;
-    std::vector<PDirectory> SubDirs;
-    std::vector<PLink> Links;
-    std::vector<PFile> Files;
+    TWeakDirectory ParentDir;
+    std::vector<TStrongFileVariant> FileVariants;
+
+    private:
+    template<typename FileObjectCont>
+    FileObjectCont::iterator FindByName(FileObjectCont& objects, const std::string_view& name) {
+        return std::find_if(objects.begin(), objects.end(), [&name](const auto& obj) { return obj->Info.Name==name; });
+    }
 };
 
 

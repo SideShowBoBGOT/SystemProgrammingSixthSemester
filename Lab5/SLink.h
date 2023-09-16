@@ -4,15 +4,15 @@
 #include "TCommonDeclarations.h"
 #include "SFileSystemInfo.h"
 
-class SFile;
-class SDirectory;
+struct SFile;
+struct SDirectory;
 
 struct SLink {
-    SLink(const SFileSystemInfo& info, const TFileVariant& fileVariant, const PDirectory& parentDir);
+    SLink(const SFileSystemInfo& info, const TWeakFileVariant& fileVariant, const TStrongDirectory& parentDir);
 
     SFileSystemInfo Info;
-    TFileVariant FileVariant;
-    WDirectory ParentDir;
+    TWeakFileVariant FileVariant;
+    TWeakDirectory ParentDir;
 };
 
 

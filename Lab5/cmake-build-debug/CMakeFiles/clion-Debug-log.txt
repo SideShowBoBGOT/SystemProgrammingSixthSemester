@@ -1,14 +1,4 @@
 /snap/clion/250/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/250/bin/ninja/linux/x64/ninja -G Ninja -S /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5 -B /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug
--- Checking for one of the modules 'fuse3'
-CMake Error at CMakeLists.txt:35 (target_link_libraries):
-  The keyword signature for target_link_libraries has already been used with
-  the target "Lab5".  All uses of target_link_libraries with a target must be
-  either all-keyword or all-plain.
-
-  The uses of the keyword signature are here:
-
-   * CMakeLists.txt:30 (target_link_libraries)
-
-
-
--- Configuring incomplete, errors occurred!
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug

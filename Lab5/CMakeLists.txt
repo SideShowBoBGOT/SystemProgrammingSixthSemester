@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.26)
 project(Lab5)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_FLAGS -Wall)
 
 
 add_executable(${PROJECT_NAME} main.cpp
-        NNFileSystem.cpp
-        NNFileSystem.h
+        TFileSystem.cpp
+        TFileSystem.h
         SFileSystemInfo.cpp
         SFileSystemInfo.h
         SDirectory.cpp
@@ -17,6 +17,9 @@ add_executable(${PROJECT_NAME} main.cpp
         SFile.cpp
         SFile.h
         TCommonDeclarations.h
+        SOverloadVariant.h
+        Errors/TPathException.cpp
+        Errors/TPathException.h
 )
 
 include(FetchContent)

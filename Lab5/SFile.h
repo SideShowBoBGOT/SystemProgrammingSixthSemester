@@ -6,14 +6,14 @@
 #include "SFileSystemInfo.h"
 #include "TCommonDeclarations.h"
 
-class SDirectory;
+struct SDirectory;
 
 struct SFile {
-    SFile(const SFileSystemInfo& info, const PDirectory& parentDir);
+    SFile(const SFileSystemInfo& info, const TStrongDirectory& parentDir);
 
     SFileSystemInfo Info;
     std::vector<std::byte> Content;
-    WDirectory ParentDir;
+    TWeakDirectory ParentDir;
 };
 
 
