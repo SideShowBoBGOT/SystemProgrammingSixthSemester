@@ -10,7 +10,7 @@
 #include "SFileSystemInfo.h"
 
 struct SDirectory {
-    SDirectory(const SFileSystemInfo& info, const TNullableDirectory& parentDir);
+    SDirectory(const std::string& name, const TNullableDirectory& parentDir);
 
     SFileSystemInfo Info;
     TWeakDirectory ParentDir;

@@ -8,7 +8,7 @@
 #include "../Helpers/SOverloadVariant.h"
 #include "../Models/Errors/TPathException.h"
 
-const TStrongDirectory TFileSystem::s_pRootDir = std::make_shared<SDirectory>(SFileSystemInfo(""), nullptr);
+const TStrongDirectory TFileSystem::s_pRootDir = std::make_shared<SDirectory>("", nullptr);
 
 int TFileSystem::GetAttr(const char *path, struct stat *st) {
 

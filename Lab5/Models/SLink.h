@@ -8,7 +8,7 @@ struct SFile;
 struct SDirectory;
 
 struct SLink {
-    SLink(const SFileSystemInfo& info, const TWeakFileVariant& fileVariant, const TNullableDirectory& parentDir);
+    SLink(const std::string& name, const TWeakFileVariant& fileVariant, const TNullableDirectory& parentDir);
 
     SFileSystemInfo Info;
     TWeakFileVariant FileVariant;

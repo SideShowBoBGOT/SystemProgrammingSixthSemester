@@ -5,7 +5,6 @@
 #include <vector>
 
 struct SFileSystemInfo {
-    SFileSystemInfo()=default;
     SFileSystemInfo(const std::string& name);
 
     std::string Name{};
