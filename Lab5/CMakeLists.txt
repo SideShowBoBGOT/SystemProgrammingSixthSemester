@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 project(Lab5)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS -Wall -D_FILE_OFFSET_BITS=64)
+set(CMAKE_CXX_FLAGS -Wall)
 
 
 add_executable(${PROJECT_NAME} main.cpp
@@ -16,7 +16,7 @@ add_executable(${PROJECT_NAME} main.cpp
         SLink.h
         SFile.cpp
         SFile.h
-        TFileVariant.h
+        TCommonDeclarations.h
 )
 
 include(FetchContent)
@@ -29,6 +29,9 @@ FetchContent_Declare(GSL
 FetchContent_MakeAvailable(GSL)
 target_link_libraries(${PROJECT_NAME} PRIVATE Microsoft.GSL::GSL)
 
-find_package(FUSE REQUIRED)
-include_directories(${FUSE_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} ${FUSE_LIBRARIES})
+include(FindPkgConfig)
+pkg_search_module(FUSE3 REQUIRED fuse3)
+target_include_directories(${PROJECT_NAME} PUBLIC ${FUSE3_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${FUSE3_LIBRARIES})
+
+

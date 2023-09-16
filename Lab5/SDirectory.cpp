@@ -1,5 +1,4 @@
-//
-// Created by sideshowbobgot on 15.09.23.
-//
-
 #include "SDirectory.h"
+
+SDirectory::SDirectory(const SFileSystemInfo& info, const PDirectory& parentDir)
+    : Info{info}, ParentDir{parentDir.get()} {}

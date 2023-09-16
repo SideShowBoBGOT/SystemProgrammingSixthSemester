@@ -11,7 +11,8 @@
 		"commands" : 
 		[
 			"add_executable",
-			"target_link_libraries"
+			"target_link_libraries",
+			"target_include_directories"
 		],
 		"files" : 
 		[
@@ -31,6 +32,18 @@
 			{
 				"command" : 1,
 				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 34,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
 				"line" : 30,
 				"parent" : 0
 			}
@@ -42,13 +55,17 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-Wall;-D_FILE_OFFSET_BITS=64 -g -fdiagnostics-color=always"
+					"fragment" : "-Wall -g -fdiagnostics-color=always"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
+					"path" : "/usr/include/fuse3"
+				},
+				{
+					"backtrace" : 4,
 					"isSystem" : true,
 					"path" : "/home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-src/include"
 				}
@@ -79,12 +96,22 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-Wall;-D_FILE_OFFSET_BITS=64 -g",
+				"fragment" : "-Wall -g",
 				"role" : "flags"
 			},
 			{
 				"fragment" : "",
 				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lfuse3",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lpthread",
+				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
@@ -188,7 +215,7 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "TFileVariant.h",
+			"path" : "TCommonDeclarations.h",
 			"sourceGroupIndex" : 1
 		}
 	],

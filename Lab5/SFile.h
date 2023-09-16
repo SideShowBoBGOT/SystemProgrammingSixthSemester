@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "SFileSystemInfo.h"
-#include "TFileVariant.h"
+#include "TCommonDeclarations.h"
 
 class SDirectory;
 
@@ -13,7 +13,7 @@ struct SFile {
 
     SFileSystemInfo Info;
     std::vector<std::byte> Content;
-    PDirectory ParentDir;
+    WDirectory ParentDir;
 };
 
 

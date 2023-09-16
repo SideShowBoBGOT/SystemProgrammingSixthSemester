@@ -1,7 +1,7 @@
 #ifndef LAB5_SLINK_H
 #define LAB5_SLINK_H
 
-#include "TFileVariant.h"
+#include "TCommonDeclarations.h"
 #include "SFileSystemInfo.h"
 
 class SFile;
@@ -12,7 +12,7 @@ struct SLink {
 
     SFileSystemInfo Info;
     TFileVariant FileVariant;
-    PDirectory ParentDir;
+    WDirectory ParentDir;
 };
 
 

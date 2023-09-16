@@ -5,16 +5,14 @@
 
 #include <gsl/gsl>
 
-#include "TFileVariant.h"
+#include "TCommonDeclarations.h"
 #include "SFileSystemInfo.h"
 
-class SLink;
-class TFile;
-
-class SDirectory {
+struct SDirectory {
+    SDirectory(const SFileSystemInfo& info, const PDirectory& parentDir);
 
     SFileSystemInfo Info;
-    not_null_shared_ptr<SDirectory> ParentDir;
+    WDirectory ParentDir;
     std::vector<PDirectory> SubDirs;
     std::vector<PLink> Links;
     std::vector<PFile> Files;

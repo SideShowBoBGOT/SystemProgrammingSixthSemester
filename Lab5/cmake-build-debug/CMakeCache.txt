@@ -14,6 +14,15 @@
 # EXTERNAL cache entries
 ########################
 
+//The directory containing a CMake configuration file for BOOST.
+BOOST_DIR:PATH=BOOST_DIR-NOTFOUND
+
+//The directory containing a CMake configuration file for Boost.
+Boost_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0
+
+//Path to a file.
+Boost_INCLUDE_DIR:PATH=/usr/include
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
 
@@ -295,8 +304,17 @@ FETCHCONTENT_UPDATES_DISCONNECTED:BOOL=OFF
 //Enables UPDATE_DISCONNECTED behavior just for population of GSL
 FETCHCONTENT_UPDATES_DISCONNECTED_GSL:BOOL=OFF
 
+//The directory containing a CMake configuration file for FUSE3.
+FUSE3_DIR:PATH=FUSE3_DIR-NOTFOUND
+
 //The directory containing a CMake configuration file for FUSE.
 FUSE_DIR:PATH=FUSE_DIR-NOTFOUND
+
+//Path to a file.
+FUSE_INCLUDE_DIR:PATH=/usr/include
+
+//The directory containing a CMake configuration file for Fuse.
+Fuse_DIR:PATH=Fuse_DIR-NOTFOUND
 
 //Git command line client
 GIT_EXECUTABLE:FILEPATH=/usr/bin/git
@@ -348,6 +366,24 @@ PKG_CONFIG_ARGN:STRING=
 //pkg-config executable
 PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
 
+//The directory containing a CMake configuration file for boost_headers.
+boost_headers_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.74.0
+
+//The directory containing a CMake configuration file for fuse3.
+fuse3_DIR:PATH=fuse3_DIR-NOTFOUND
+
+//The directory containing a CMake configuration file for fuse.
+fuse_DIR:PATH=fuse_DIR-NOTFOUND
+
+//Path to a library.
+myfuselib:FILEPATH=/usr/lib/x86_64-linux-gnu/libfuse3.so
+
+//Path to a library.
+pkgcfg_lib_FUSE3_fuse3:FILEPATH=/usr/lib/x86_64-linux-gnu/libfuse3.so
+
+//Path to a library.
+pkgcfg_lib_FUSE3_pthread:FILEPATH=/usr/lib/x86_64-linux-gnu/libpthread.a
+
 //Path to a library.
 pkgcfg_lib_GSL_gsl:FILEPATH=/usr/lib/x86_64-linux-gnu/libgsl.so
 
@@ -357,11 +393,16 @@ pkgcfg_lib_GSL_gslcblas:FILEPATH=/usr/lib/x86_64-linux-gnu/libgslcblas.so
 //Path to a library.
 pkgcfg_lib_GSL_m:FILEPATH=/usr/lib/x86_64-linux-gnu/libm.so
 
+//Path to a library.
+pkgcfg_lib_PC_fuse_fuse:FILEPATH=/usr/lib/x86_64-linux-gnu/libfuse.so
+
 
 ########################
 # INTERNAL cache entries
 ########################
 
+//ADVANCED property for variable: Boost_DIR
+Boost_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -533,8 +574,47 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding Boost
+FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake][c ][v1.74.0()]
 //Details about finding GSL
 FIND_PACKAGE_MESSAGE_DETAILS_GSL:INTERNAL=[/usr/include][/usr/lib/x86_64-linux-gnu/libgsl.so][/usr/lib/x86_64-linux-gnu/libgslcblas.so][v2.7.1()]
+//Details about finding PkgConfig
+FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v0.29.2()]
+FUSE3_CFLAGS:INTERNAL=-I/usr/include/fuse3
+FUSE3_CFLAGS_I:INTERNAL=
+FUSE3_CFLAGS_OTHER:INTERNAL=
+FUSE3_FOUND:INTERNAL=1
+FUSE3_INCLUDEDIR:INTERNAL=/usr/include
+FUSE3_INCLUDE_DIRS:INTERNAL=/usr/include/fuse3
+FUSE3_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lfuse3;-lpthread
+FUSE3_LDFLAGS_OTHER:INTERNAL=
+FUSE3_LIBDIR:INTERNAL=/usr/lib/x86_64-linux-gnu
+FUSE3_LIBRARIES:INTERNAL=fuse3;pthread
+FUSE3_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
+FUSE3_LIBS:INTERNAL=
+FUSE3_LIBS_L:INTERNAL=
+FUSE3_LIBS_OTHER:INTERNAL=
+FUSE3_LIBS_PATHS:INTERNAL=
+FUSE3_MODULE_NAME:INTERNAL=fuse3
+FUSE3_PREFIX:INTERNAL=/usr
+FUSE3_STATIC_CFLAGS:INTERNAL=-I/usr/include/fuse3
+FUSE3_STATIC_CFLAGS_I:INTERNAL=
+FUSE3_STATIC_CFLAGS_OTHER:INTERNAL=
+FUSE3_STATIC_INCLUDE_DIRS:INTERNAL=/usr/include/fuse3
+FUSE3_STATIC_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lfuse3;-lpthread;-ldl;-pthread;-lrt
+FUSE3_STATIC_LDFLAGS_OTHER:INTERNAL=-pthread
+FUSE3_STATIC_LIBDIR:INTERNAL=
+FUSE3_STATIC_LIBRARIES:INTERNAL=fuse3;pthread;dl;rt
+FUSE3_STATIC_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
+FUSE3_STATIC_LIBS:INTERNAL=
+FUSE3_STATIC_LIBS_L:INTERNAL=
+FUSE3_STATIC_LIBS_OTHER:INTERNAL=
+FUSE3_STATIC_LIBS_PATHS:INTERNAL=
+FUSE3_VERSION:INTERNAL=3.10.5
+FUSE3_fuse3_INCLUDEDIR:INTERNAL=
+FUSE3_fuse3_LIBDIR:INTERNAL=
+FUSE3_fuse3_PREFIX:INTERNAL=
+FUSE3_fuse3_VERSION:INTERNAL=
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: GSL_CBLAS_LIBRARY
@@ -586,6 +666,41 @@ GSL_gsl_INCLUDEDIR:INTERNAL=
 GSL_gsl_LIBDIR:INTERNAL=
 GSL_gsl_PREFIX:INTERNAL=
 GSL_gsl_VERSION:INTERNAL=
+PC_fuse_CFLAGS:INTERNAL=-D_FILE_OFFSET_BITS=64;-I/usr/include/fuse
+PC_fuse_CFLAGS_I:INTERNAL=
+PC_fuse_CFLAGS_OTHER:INTERNAL=-D_FILE_OFFSET_BITS=64
+PC_fuse_FOUND:INTERNAL=1
+PC_fuse_INCLUDEDIR:INTERNAL=/usr/include
+PC_fuse_INCLUDE_DIRS:INTERNAL=/usr/include/fuse
+PC_fuse_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lfuse;-pthread
+PC_fuse_LDFLAGS_OTHER:INTERNAL=-pthread
+PC_fuse_LIBDIR:INTERNAL=/usr/lib/x86_64-linux-gnu
+PC_fuse_LIBRARIES:INTERNAL=fuse
+PC_fuse_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
+PC_fuse_LIBS:INTERNAL=
+PC_fuse_LIBS_L:INTERNAL=
+PC_fuse_LIBS_OTHER:INTERNAL=
+PC_fuse_LIBS_PATHS:INTERNAL=
+PC_fuse_MODULE_NAME:INTERNAL=fuse
+PC_fuse_PREFIX:INTERNAL=/usr
+PC_fuse_STATIC_CFLAGS:INTERNAL=-D_FILE_OFFSET_BITS=64;-I/usr/include/fuse
+PC_fuse_STATIC_CFLAGS_I:INTERNAL=
+PC_fuse_STATIC_CFLAGS_OTHER:INTERNAL=-D_FILE_OFFSET_BITS=64
+PC_fuse_STATIC_INCLUDE_DIRS:INTERNAL=/usr/include/fuse
+PC_fuse_STATIC_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lfuse;-pthread
+PC_fuse_STATIC_LDFLAGS_OTHER:INTERNAL=-pthread
+PC_fuse_STATIC_LIBDIR:INTERNAL=
+PC_fuse_STATIC_LIBRARIES:INTERNAL=fuse
+PC_fuse_STATIC_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
+PC_fuse_STATIC_LIBS:INTERNAL=
+PC_fuse_STATIC_LIBS_L:INTERNAL=
+PC_fuse_STATIC_LIBS_OTHER:INTERNAL=
+PC_fuse_STATIC_LIBS_PATHS:INTERNAL=
+PC_fuse_VERSION:INTERNAL=2.9.9
+PC_fuse_fuse_INCLUDEDIR:INTERNAL=
+PC_fuse_fuse_LIBDIR:INTERNAL=
+PC_fuse_fuse_PREFIX:INTERNAL=
+PC_fuse_fuse_VERSION:INTERNAL=
 //ADVANCED property for variable: PKG_CONFIG_ARGN
 PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
@@ -595,12 +710,23 @@ _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr/local
 __pkg_config_arguments_GSL:INTERNAL=QUIET;gsl
+__pkg_config_arguments_PC_fuse:INTERNAL=QUIET;fuse
+__pkg_config_checked_FUSE3:INTERNAL=1
 __pkg_config_checked_GSL:INTERNAL=1
+__pkg_config_checked_PC_fuse:INTERNAL=1
+//ADVANCED property for variable: boost_headers_DIR
+boost_headers_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_FUSE3_fuse3
+pkgcfg_lib_FUSE3_fuse3-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_FUSE3_pthread
+pkgcfg_lib_FUSE3_pthread-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: pkgcfg_lib_GSL_gsl
 pkgcfg_lib_GSL_gsl-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: pkgcfg_lib_GSL_gslcblas
 pkgcfg_lib_GSL_gslcblas-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: pkgcfg_lib_GSL_m
 pkgcfg_lib_GSL_m-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_PC_fuse_fuse
+pkgcfg_lib_PC_fuse_fuse-ADVANCED:INTERNAL=1
 prefix_result:INTERNAL=/usr/lib/x86_64-linux-gnu
 
