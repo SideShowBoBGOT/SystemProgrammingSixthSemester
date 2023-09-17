@@ -8,7 +8,7 @@
 
 struct SDirectory;
 
-struct SFile {
+struct SFile : std::enable_shared_from_this<SFile> {
     SFile(const std::string& name, const TStDirectory& parentDir);
 
     SFileSystemInfo Info;

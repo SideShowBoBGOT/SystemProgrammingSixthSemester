@@ -54,15 +54,11 @@ int TFileSystem::SymLink(const char *target_path, const char *link_path) {
     const auto targetRes = Find(target_path);
     if(!targetRes) return PrintErrGetVal(targetRes);
     const auto linkPath = std::filesystem::path(link_path);
-    const auto parentDirRes = FindDir(linkPath.parent_path());
+    auto parentDirRes = FindDir(linkPath.parent_path());
     if(!parentDirRes) return PrintErrGetVal(parentDirRes);
-    const auto newLink = MakeNotNull<SLink>(linkPath.filename().c_str(), targetRes.value(), parentDirRes.value());
-
-    const auto result = Find(target_path);
-    if(!result) {
-        std::visit([](const auto& ex) { std::cout << ex.what() << "\n"; }, result.error());
-        return -ENOENT;
-    }
+    auto& parentDir = parentDirRes.value();
+    const auto linkName = linkPath.filename().c_str();
+    parentDir->MakeFileObject<SLink>(linkName, targetRes.value());
     return 0;
 }
 
