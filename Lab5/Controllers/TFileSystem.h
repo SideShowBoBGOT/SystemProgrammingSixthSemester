@@ -13,15 +13,15 @@
 
 class TFileSystem {
     public:
-    static int GetAttr(const char *path, struct stat *st);
-    static int SymLink(const char *target_path, const char *link_path);
+    static int GetAttr(const char *path, struct stat *st, struct fuse_file_info *fi);
     static int ReadLink(const char *path, char *buffer, size_t size);
-    static int MkDir(const char *path, mode_t mode);
     static int MkNod(const char *path, mode_t mode, dev_t rdev);
+    static int MkDir(const char *path, mode_t mode);
+    static int SymLink(const char *target_path, const char *link_path);
+    static int ChMod(const char *path, mode_t mode, struct fuse_file_info *fi);
     static int Read(const char *path, char *buffer, size_t size, off_t offset, struct fuse_file_info *fi);
-    static int ChMod(const char *path, mode_t mode);
     static int Write(const char *path, const char *buffer, size_t size, off_t offset, struct fuse_file_info *info);
-    static int ReadDir(const char *path, void *buffer, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi);
+    static int ReadDir(const char *path, void *buffer, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi, enum fuse_readdir_flags flags);
 
     private:
     [[nodiscard]] static auto Find(const std::filesystem::path& path)
@@ -35,6 +35,7 @@ class TFileSystem {
     static std::filesystem::path TraverseToRoot(const TStFileVariant& var);
     static std::string_view GetFileObjectName(const TStFileVariant& var);
     static TWDirectory GetFileObjectParentDir(const TStFileVariant& var);
+    static void FillerDirectory(const TStDirectory& dir, void *buffer, fuse_fill_dir_t filler, fuse_readdir_flags flags);
 
     private:
     static const TStDirectory s_pRootDir;
