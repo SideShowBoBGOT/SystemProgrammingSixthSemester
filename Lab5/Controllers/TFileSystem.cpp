@@ -101,17 +101,20 @@ int TFileSystem::ChMod(const char *path, mode_t mode) {
     return 0;
 }
 
+int TFileSystem::Write(const char *path, const char *buffer, size_t size, off_t offset, struct fuse_file_info *info) {
+    auto fileRes = FindFile(path);
+    if(!fileRes) return PrintErrGetVal(fileRes);
+    const auto& file = fileRes.value();
+    file->Content.reserve(offset);
+    for(auto i = 0; i < offset; ++i) {
+        file->Content.emplace_back(static_cast<std::byte>(buffer[i]));
+    }
+    return 0;
+}
+
 int TFileSystem::ReadDir(const char *path, void *buffer, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi) {
     return 0;
 }
-
-int TFileSystem::Write(const char *path, const char *buffer, size_t size, off_t offset, struct fuse_file_info *info) {
-    return 0;
-}
-
-
-
-
 
 std::expected<TStFileVariant, TFileSystemVariantException> TFileSystem::Find(const std::filesystem::path& path) {
     if(path.empty() or std::string_view(path.begin()->c_str())!=s_sRootPath) {

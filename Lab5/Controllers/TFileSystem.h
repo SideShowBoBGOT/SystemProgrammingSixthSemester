@@ -20,8 +20,8 @@ class TFileSystem {
     static int MkNod(const char *path, mode_t mode, dev_t rdev);
     static int Read(const char *path, char *buffer, size_t size, off_t offset, struct fuse_file_info *fi);
     static int ChMod(const char *path, mode_t mode);
-    static int ReadDir(const char *path, void *buffer, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi);
     static int Write(const char *path, const char *buffer, size_t size, off_t offset, struct fuse_file_info *info);
+    static int ReadDir(const char *path, void *buffer, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi);
 
     private:
     [[nodiscard]] static auto Find(const std::filesystem::path& path)
