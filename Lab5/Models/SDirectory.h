@@ -9,12 +9,12 @@
 #include "TCommonDeclarations.h"
 #include "SFileSystemInfo.h"
 
-struct SDirectory {
-    SDirectory(const std::string& name, const TNullableDirectory& parentDir);
+struct SDirectory : std::enable_shared_from_this<SDirectory> {
+    SDirectory(const std::string& name, const TOptStDirectory& parentDir);
 
     SFileSystemInfo Info;
-    TWeakDirectory ParentDir;
-    std::vector<TStrongFileVariant> FileVariants;
+    TWDirectory ParentDir;
+    std::vector<TStFileVariant> FileVariants;
 };
 
 

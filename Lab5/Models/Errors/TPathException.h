@@ -3,20 +3,25 @@
 
 #include <exception>
 #include <string>
+#include <filesystem>
 
-#define DECLARE_PATH_EXCEPTION(name)\
+#define DECLARE_PATH_EXCEPTION(name, message)\
     class T##name##Exception : public std::exception {\
         public:\
-        T##name##Exception()=default;\
-        explicit T##name##Exception(const std::string_view& path);\
+        template<typename PathIterator>\
+        T##name##Exception(const PathIterator& begin, const PathIterator& end) {\
+            auto path = std::filesystem::path();\
+            for(auto it = begin; it != end; ++it) path.append(it->c_str());\
+            m_sMessage = std::format(message, std::string_view(path.c_str()));\
+        }\
         virtual const char* what() const noexcept override;\
                                     \
         protected:\
         std::string m_sMessage;\
     };
 
-    DECLARE_PATH_EXCEPTION(NotDirectory);
-    DECLARE_PATH_EXCEPTION(FileObjectNotExist);
+    DECLARE_PATH_EXCEPTION(NotDirectory, "File object is not directory: {}");
+    DECLARE_PATH_EXCEPTION(FileObjectNotExist, "File does not exist: {}");
 
 #undef DECLARE_PATH_EXCEPTION
 

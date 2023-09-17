@@ -5,11 +5,11 @@
 #include "SFileSystemInfo.h"
 
 struct SLink {
-    SLink(const std::string& name, const std::string& linkTo, const TNullableDirectory& parentDir);
+    SLink(const std::string& name, const TStFileVariant& linkTo, const TOptStDirectory& parentDir);
 
     SFileSystemInfo Info;
-    std::string LinkTo;
-    TWeakDirectory ParentDir;
+    TWFileVariant LinkTo;
+    TWDirectory ParentDir;
 };
 
 

@@ -23,14 +23,11 @@ class TFileSystem {
     static int ReadLink(const char *path, char *buffer, size_t size);
 
     private:
-    [[nodiscard]] static auto Find(const std::string_view& path)
-        -> std::expected<TStrongFileVariant, TFileSystemVariantException>;
-
-    static std::vector<std::string_view> PathToNames(const std::string_view& path);
-    static std::string NamesToPath(const std::vector<std::string_view>& names, long endPos);
+    [[nodiscard]] static auto Find(const std::filesystem::path& path)
+        -> std::expected<TStFileVariant, TFileSystemVariantException>;
 
     private:
-    static const TStrongDirectory s_pRootDir;
+    static const TStDirectory s_pRootDir;
 };
 
 

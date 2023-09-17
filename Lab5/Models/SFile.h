@@ -9,11 +9,11 @@
 struct SDirectory;
 
 struct SFile {
-    SFile(const std::string& name, const TNullableDirectory& parentDir);
+    SFile(const std::string& name, const TOptStDirectory& parentDir);
 
     SFileSystemInfo Info;
     std::vector<std::byte> Content;
-    TWeakDirectory ParentDir;
+    TWDirectory ParentDir;
 };
 
 
