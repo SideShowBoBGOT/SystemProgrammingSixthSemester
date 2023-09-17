@@ -67,19 +67,38 @@ int TFileSystem::ReadLink(const char *path, char *buffer, size_t size) {
 }
 
 int TFileSystem::MkDir(const char *path, mode_t mode) {
-    return 0;
-}
-
-int
-TFileSystem::ReadDir(const char *path, void *buffer, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi) {
+    const auto newDirPath = std::filesystem::path(path);
+    auto parentDirRes = FindDir(newDirPath.parent_path());
+    if(!parentDirRes) return PrintErrGetVal(parentDirRes);
+    auto& parentDir = parentDirRes.value();
+    const auto dir = parentDir->MakeFileObject<SDirectory>(newDirPath.filename().c_str());
+    dir->Info.Mode |= S_IFDIR;
     return 0;
 }
 
 int TFileSystem::MkNod(const char *path, mode_t mode, dev_t rdev) {
+    const auto newDirPath = std::filesystem::path(path);
+    auto parentDirRes = FindDir(newDirPath.parent_path());
+    if(!parentDirRes) return PrintErrGetVal(parentDirRes);
+    auto& parentDir = parentDirRes.value();
+    const auto file = parentDir->MakeFileObject<SFile>(newDirPath.filename().c_str());
+    file->Info.Mode |= mode;
     return 0;
 }
 
 int TFileSystem::Read(const char *path, char *buffer, size_t size, off_t offset, struct fuse_file_info *fi) {
+    auto fileRes = FindFile(path);
+    if(!fileRes) return PrintErrGetVal(fileRes);
+    const auto& file = fileRes.value();
+    memcpy(buffer, file->Content.data() + offset, size);
+    return static_cast<int>(file->Content.size() - offset);
+}
+
+int TFileSystem::ChMod(const char *path, mode_t mode) {
+    return 0;
+}
+
+int TFileSystem::ReadDir(const char *path, void *buffer, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi) {
     return 0;
 }
 
@@ -87,9 +106,7 @@ int TFileSystem::Write(const char *path, const char *buffer, size_t size, off_t 
     return 0;
 }
 
-int TFileSystem::ChMod(const char *path, mode_t mode) {
-    return 0;
-}
+
 
 
 
