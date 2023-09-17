@@ -95,6 +95,9 @@ int TFileSystem::Read(const char *path, char *buffer, size_t size, off_t offset,
 }
 
 int TFileSystem::ChMod(const char *path, mode_t mode) {
+    const auto var = Find(path);
+    if(!var) return PrintErrGetVal(var);
+    std::visit([mode](const auto& p) { p->Info.Mode |= mode; }, var.value());
     return 0;
 }
 
