@@ -22,6 +22,8 @@
     };
 
     DECLARE_PATH_EXCEPTION(NotDirectory, "File object is not directory: {}");
+    DECLARE_PATH_EXCEPTION(NotLink, "File object is not link: {}");
+    DECLARE_PATH_EXCEPTION(NotFile, "File object is not file: {}");
     DECLARE_PATH_EXCEPTION(FileObjectNotExist, "File does not exist: {}");
 
 #undef DECLARE_PATH_EXCEPTION

@@ -1,14 +1,16 @@
 #ifndef LAB5_SLINK_H
 #define LAB5_SLINK_H
 
+#include <filesystem>
+
 #include "TCommonDeclarations.h"
 #include "SFileSystemInfo.h"
 
 struct SLink {
-    SLink(const std::string& name, const TStFileVariant& linkTo, const TStDirectory& parentDir);
+    SLink(const std::string& name, const std::filesystem::path& linkTo, const TStDirectory& parentDir);
 
     SFileSystemInfo Info;
-    TWFileVariant LinkTo;
+    std::filesystem::path LinkTo;
     TWDirectory ParentDir;
 };
 

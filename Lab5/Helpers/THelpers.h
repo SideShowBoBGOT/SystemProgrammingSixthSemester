@@ -9,10 +9,10 @@
 #include <functional>
 
 template<class... Ts>
-struct THelpers : Ts... { using Ts::operator()...; };
+struct SOverloadVariant : Ts... { using Ts::operator()...; };
 
 template<class... Ts>
-THelpers(Ts...) -> THelpers<Ts...>;
+SOverloadVariant(Ts...) -> SOverloadVariant<Ts...>;
 
 template<class... Ts>
 std::variant<std::weak_ptr<Ts>...> DowngradeVariant(const std::variant<gsl::not_null<std::shared_ptr<Ts>>...>& var) {

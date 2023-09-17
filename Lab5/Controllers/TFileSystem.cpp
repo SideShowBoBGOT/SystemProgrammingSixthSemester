@@ -15,10 +15,6 @@ const static constexpr std::string_view s_sRootPath = "/";
 const static constexpr std::string_view s_sSelfPath = "";
 const TStDirectory TFileSystem::s_pRootDir = std::make_shared<SDirectory>("", nullptr);
 
-void ff(const char* p) {
-    ;
-}
-
 static void ModifyAttr(const auto& fileObject, struct stat *st) {
     st->st_uid = fileObject->Info.Uid;
     st->st_gid = fileObject->Info.Gid;
@@ -31,7 +27,7 @@ int TFileSystem::GetAttr(const char *path, struct stat *st) {
     const auto result = Find(path);
     if(!result) return PrintErrGetVal(result);
 
-    std::visit(THelpers{
+    std::visit(SOverloadVariant{
         [st](const TStDirectory& dir) {
             ModifyAttr(dir, st);
             st->st_nlink = static_cast<nlink_t>(dir->FileVariants.size());
@@ -58,7 +54,15 @@ int TFileSystem::SymLink(const char *target_path, const char *link_path) {
     if(!parentDirRes) return PrintErrGetVal(parentDirRes);
     auto& parentDir = parentDirRes.value();
     const auto linkName = linkPath.filename().c_str();
-    parentDir->MakeFileObject<SLink>(linkName, targetRes.value());
+    parentDir->MakeFileObject<SLink>(linkName, TraverseToRoot(targetRes.value()));
+    return 0;
+}
+
+int TFileSystem::ReadLink(const char *path, char *buffer, size_t size) {
+    const auto linkRes = FindLink(path);
+    if(!linkRes) PrintErrGetVal(linkRes);
+    const auto& link = linkRes.value();
+    memcpy(buffer, link->LinkTo.c_str(), size);
     return 0;
 }
 
@@ -87,9 +91,7 @@ int TFileSystem::ChMod(const char *path, mode_t mode) {
     return 0;
 }
 
-int TFileSystem::ReadLink(const char *path, char *buffer, size_t size) {
-    return 0;
-}
+
 
 std::expected<TStFileVariant, TFileSystemVariantException> TFileSystem::Find(const std::filesystem::path& path) {
     if(path.empty() or std::string_view(path.begin()->c_str())!=s_sRootPath) {
@@ -132,4 +134,42 @@ std::expected<TStDirectory, TFileSystemVariantException> TFileSystem::FindDir(co
         return *t;
     }
     return std::unexpected(TNotDirectoryException(path.begin(), path.end()));
+}
+
+std::expected<TStLink, TFileSystemVariantException> TFileSystem::FindLink(const std::filesystem::path& path) {
+    const auto result = Find(path);
+    if(!result) return std::unexpected(result.error());
+    if(const auto t = std::get_if<TStLink>(&result.value())) {
+        return *t;
+    }
+    return std::unexpected(TNotDirectoryException(path.begin(), path.end()));
+}
+
+std::expected<TStFile, TFileSystemVariantException> TFileSystem::FindFile(const std::filesystem::path& path) {
+    const auto result = Find(path);
+    if(!result) return std::unexpected(result.error());
+    if(const auto t = std::get_if<TStFile>(&result.value())) {
+        return *t;
+    }
+    return std::unexpected(TNotDirectoryException(path.begin(), path.end()));
+}
+
+std::filesystem::path TFileSystem::TraverseToRoot(const TStFileVariant& var) {
+    auto names = std::vector<std::string_view>{GetFileObjectName(var)};
+    auto parentDir = GetFileObjectParentDir(var).lock();
+    while(parentDir != nullptr) {
+        names.emplace_back(GetFileObjectName(parentDir));
+        parentDir = parentDir->ParentDir.lock();
+    }
+    auto path = std::filesystem::path();
+    for(const auto& n : names) path.append(n);
+    return path;
+}
+
+std::string_view TFileSystem::GetFileObjectName(const TStFileVariant& var) {
+    return std::visit([](const auto& obj) { return std::string_view(obj->Info.Name); }, var);
+}
+
+TWDirectory TFileSystem::GetFileObjectParentDir(const TStFileVariant& var) {
+    return std::visit([](const auto& obj) {return obj->ParentDir;}, var);
 }

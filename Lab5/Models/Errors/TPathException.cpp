@@ -9,6 +9,8 @@
         return errorCode;                                \
     }
     DECLARE_PATH_EXCEPTION(NotDirectory, ENOTDIR);
+    DECLARE_PATH_EXCEPTION(NotLink, ENOLINK);
+    DECLARE_PATH_EXCEPTION(NotFile, ENOENT);
     DECLARE_PATH_EXCEPTION(FileObjectNotExist, ENOENT);
 
 #undef DECLARE_PATH_EXCEPTION
