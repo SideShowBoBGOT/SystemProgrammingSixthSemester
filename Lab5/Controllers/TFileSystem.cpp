@@ -8,7 +8,7 @@
 #include "../Models/SDirectory.h"
 #include "../Models/SLink.h"
 #include "../Models/SFile.h"
-#include "../Helpers/SOverloadVariant.h"
+#include "../Helpers/THelpers.h"
 #include "../Models/Errors/TPathException.h"
 
 const static constexpr std::string_view s_sRootPath = "/";
@@ -29,11 +29,9 @@ static void ModifyAttr(const auto& fileObject, struct stat *st) {
 
 int TFileSystem::GetAttr(const char *path, struct stat *st) {
     const auto result = Find(path);
-    if(!result) {
-        std::visit([](const auto& ex) { std::cout << ex.what() << "\n"; }, result.error());
-        return -ENOENT;
-    }
-    std::visit(SOverloadVariant{
+    if(!result) return PrintErrGetVal(result);
+
+    std::visit(THelpers{
         [st](const TStDirectory& dir) {
             ModifyAttr(dir, st);
             st->st_nlink = static_cast<nlink_t>(dir->FileVariants.size());
@@ -53,6 +51,13 @@ int TFileSystem::GetAttr(const char *path, struct stat *st) {
 }
 
 int TFileSystem::SymLink(const char *target_path, const char *link_path) {
+    const auto targetRes = Find(target_path);
+    if(!targetRes) return PrintErrGetVal(targetRes);
+    const auto linkPath = std::filesystem::path(link_path);
+    const auto parentDirRes = FindDir(linkPath.parent_path());
+    if(!parentDirRes) return PrintErrGetVal(parentDirRes);
+    const auto newLink = MakeNotNull<SLink>(linkPath.filename().c_str(), targetRes.value(), parentDirRes.value());
+
     const auto result = Find(target_path);
     if(!result) {
         std::visit([](const auto& ex) { std::cout << ex.what() << "\n"; }, result.error());
@@ -118,8 +123,17 @@ std::expected<TStFileVariant, TFileSystemVariantException> TFileSystem::Find(con
             tempDir = *t;
             continue;
         }
-        return std::unexpected(TFileObjectNotExistException(path.begin(), it));
+        return std::unexpected(TNotDirectoryException(path.begin(), it));
     }
 
     return tempDir;
+}
+
+std::expected<TStDirectory, TFileSystemVariantException> TFileSystem::FindDir(const std::filesystem::path& path) {
+    const auto result = Find(path);
+    if(!result) return std::unexpected(result.error());
+    if(const auto t = std::get_if<TStDirectory>(&result.value())) {
+        return *t;
+    }
+    return std::unexpected(TNotDirectoryException(path.begin(), path.end()));
 }

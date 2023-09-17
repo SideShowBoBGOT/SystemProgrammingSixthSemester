@@ -5,7 +5,7 @@
 #include "SFileSystemInfo.h"
 
 struct SLink {
-    SLink(const std::string& name, const TStFileVariant& linkTo, const TOptStDirectory& parentDir);
+    SLink(const std::string& name, const TStFileVariant& linkTo, const TStDirectory& parentDir);
 
     SFileSystemInfo Info;
     TWFileVariant LinkTo;

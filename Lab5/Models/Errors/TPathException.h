@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <string>
+#include <format>
 #include <filesystem>
 
 #define DECLARE_PATH_EXCEPTION(name, message)\
@@ -15,7 +16,7 @@
             m_sMessage = std::format(message, std::string_view(path.c_str()));\
         }\
         virtual const char* what() const noexcept override;\
-                                    \
+        virtual int Value() const noexcept;                            \
         protected:\
         std::string m_sMessage;\
     };

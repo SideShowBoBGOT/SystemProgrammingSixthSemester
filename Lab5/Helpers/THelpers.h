@@ -1,15 +1,18 @@
-#ifndef LAB5_SOVERLOADVARIANT_H
-#define LAB5_SOVERLOADVARIANT_H
+#ifndef LAB5_THELPERS_H
+#define LAB5_THELPERS_H
 
 #include <gsl/gsl>
 #include <variant>
+#include <expected>
 #include <memory>
+#include <iostream>
+#include <functional>
 
 template<class... Ts>
-struct SOverloadVariant : Ts... { using Ts::operator()...; };
+struct THelpers : Ts... { using Ts::operator()...; };
 
 template<class... Ts>
-SOverloadVariant(Ts...) -> SOverloadVariant<Ts...>;
+THelpers(Ts...) -> THelpers<Ts...>;
 
 template<class... Ts>
 std::variant<std::weak_ptr<Ts>...> DowngradeVariant(const std::variant<gsl::not_null<std::shared_ptr<Ts>>...>& var) {
@@ -26,4 +29,18 @@ std::variant<std::shared_ptr<Ts>...> UpgradeVariant(const std::variant<std::weak
     return std::visit([](const auto& ptr) { return std::variant<std::shared_ptr<Ts>...>(ptr.lock()); }, var);
 }
 
-#endif //LAB5_SOVERLOADVARIANT_H
+template<typename T, typename... Errs>
+int PrintErrGetVal(const std::expected<T, std::variant<Errs...>>& result) {
+    const auto& err = result.error();
+    return std::visit([](const auto& ex) {
+        std::cout << ex.what() << "\n";
+        return ex.Value();
+    }, err);
+}
+
+template<typename T, typename... Args>
+gsl::not_null<std::shared_ptr<T>> MakeNotNull(Args... args) {
+    return gsl::make_not_null(std::make_shared<T>(args...));
+}
+
+#endif //LAB5_THELPERS_H

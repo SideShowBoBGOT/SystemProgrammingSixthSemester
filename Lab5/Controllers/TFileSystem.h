@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <expected>
+#include <filesystem>
 
 #include <fuse3/fuse.h>
 
@@ -25,6 +26,8 @@ class TFileSystem {
     private:
     [[nodiscard]] static auto Find(const std::filesystem::path& path)
         -> std::expected<TStFileVariant, TFileSystemVariantException>;
+    [[nodiscard]] static auto FindDir(const std::filesystem::path& path)
+    -> std::expected<TStDirectory, TFileSystemVariantException>;
 
     private:
     static const TStDirectory s_pRootDir;

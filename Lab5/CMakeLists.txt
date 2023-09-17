@@ -17,7 +17,7 @@ add_executable(${PROJECT_NAME} main.cpp
         Models/SFile.cpp
         Models/SFile.h
         Models/TCommonDeclarations.h
-        Helpers/SOverloadVariant.h
+        Helpers/THelpers.h
         Models/Errors/TPathException.cpp
         Models/Errors/TPathException.h
 )
