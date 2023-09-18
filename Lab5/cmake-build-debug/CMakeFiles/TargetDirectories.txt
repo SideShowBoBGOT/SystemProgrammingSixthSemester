@@ -1,7 +1,0 @@
-/home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/CMakeFiles/Lab5.dir
-/home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-build/CMakeFiles/edit_cache.dir
-/home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-build/CMakeFiles/rebuild_cache.dir
-/home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-build/include/CMakeFiles/edit_cache.dir
-/home/sideshowbobgot/university/SystemProgrammingSixthSemester/Lab5/cmake-build-debug/_deps/gsl-build/include/CMakeFiles/rebuild_cache.dir
