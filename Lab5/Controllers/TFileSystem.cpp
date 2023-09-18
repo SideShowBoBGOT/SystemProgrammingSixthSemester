@@ -12,7 +12,9 @@ const static constexpr std::string_view s_sSelfPath = "";
 const static constexpr std::string_view s_sCurrentPath = ".";
 const static constexpr std::string_view s_sParentPath = "..";
 
-const TStDirectory TFileSystem::s_pRootDir = std::make_shared<SDirectory>("", nullptr);
+const TStDirectory TFileSystem::s_pRootDir = std::make_shared<SDirectory>("/", nullptr);
+
+#define LOG_FUNC_PATH(func, path) std::cout << #func <<": " << path << "\n";
 
 static void ModifyAttr(const auto& fileObject, struct stat *st) {
     st->st_uid = fileObject->Info.Uid;
@@ -23,6 +25,7 @@ static void ModifyAttr(const auto& fileObject, struct stat *st) {
 }
 
 int TFileSystem::GetAttr(const char *path, struct stat *st, struct fuse_file_info *fi) {
+    LOG_FUNC_PATH(GetAttr, path);
     const auto result = Find(path);
     if(!result) return PrintErrGetVal(result);
 
@@ -39,13 +42,14 @@ int TFileSystem::GetAttr(const char *path, struct stat *st, struct fuse_file_inf
         [st](const TStLink& link) {
             ModifyAttr(link, st);
             st->st_nlink = 1;
-            //st->st_size = static_cast<off_t>(link->LinkTo.size());
+            st->st_size = static_cast<off_t>(std::string_view(link->LinkTo.c_str()).size());
         }
     }, result.value());
     return 0;
 }
 
 int TFileSystem::ReadLink(const char *path, char *buffer, size_t size) {
+    LOG_FUNC_PATH(ReadLink, path);
     const auto linkRes = FindLink(path);
     if(!linkRes) PrintErrGetVal(linkRes);
     const auto& link = linkRes.value();
@@ -54,6 +58,7 @@ int TFileSystem::ReadLink(const char *path, char *buffer, size_t size) {
 }
 
 int TFileSystem::MkNod(const char *path, mode_t mode, dev_t rdev) {
+    LOG_FUNC_PATH(MkNod, path);
     const auto newDirPath = std::filesystem::path(path);
     auto parentDirRes = FindDir(newDirPath.parent_path());
     if(!parentDirRes) return PrintErrGetVal(parentDirRes);
@@ -64,6 +69,7 @@ int TFileSystem::MkNod(const char *path, mode_t mode, dev_t rdev) {
 }
 
 int TFileSystem::MkDir(const char *path, mode_t mode) {
+    LOG_FUNC_PATH(MkDir, path);
     const auto newDirPath = std::filesystem::path(path);
     auto parentDirRes = FindDir(newDirPath.parent_path());
     if(!parentDirRes) return PrintErrGetVal(parentDirRes);
@@ -74,6 +80,8 @@ int TFileSystem::MkDir(const char *path, mode_t mode) {
 }
 
 int TFileSystem::SymLink(const char *target_path, const char *link_path) {
+    LOG_FUNC_PATH(SymLink, target_path);
+    LOG_FUNC_PATH(SymLink, link_path);
     const auto targetRes = Find(target_path);
     if(!targetRes) return PrintErrGetVal(targetRes);
     const auto linkPath = std::filesystem::path(link_path);
@@ -86,6 +94,7 @@ int TFileSystem::SymLink(const char *target_path, const char *link_path) {
 }
 
 int TFileSystem::ChMod(const char *path, mode_t mode, struct fuse_file_info *fi) {
+    LOG_FUNC_PATH(ChMod, path);
     const auto var = Find(path);
     if(!var) return PrintErrGetVal(var);
     std::visit([mode](const auto& p) { p->Info.Mode |= mode; }, var.value());
@@ -93,6 +102,7 @@ int TFileSystem::ChMod(const char *path, mode_t mode, struct fuse_file_info *fi)
 }
 
 int TFileSystem::Read(const char *path, char *buffer, size_t size, off_t offset, struct fuse_file_info *fi) {
+    LOG_FUNC_PATH(Read, path);
     auto fileRes = FindFile(path);
     if(!fileRes) return PrintErrGetVal(fileRes);
     const auto& file = fileRes.value();
@@ -101,19 +111,21 @@ int TFileSystem::Read(const char *path, char *buffer, size_t size, off_t offset,
 }
 
 int TFileSystem::Write(const char *path, const char *buffer, size_t size, off_t offset, struct fuse_file_info *info) {
+    LOG_FUNC_PATH(Write, path);
     auto fileRes = FindFile(path);
     if(!fileRes) return PrintErrGetVal(fileRes);
     const auto& file = fileRes.value();
     file->Content.reserve(size);
-    for(auto i = 0; i < offset; ++i) {
-        file->Content.emplace_back(static_cast<std::byte>(buffer[i + offset]));
+    for(auto i = 0; i < size; ++i) {
+        file->Content.emplace_back(buffer[i]);
     }
-    return 0;
+    return static_cast<int>(size);
 }
 
 int TFileSystem::ReadDir(const char *path, void *buffer, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi, enum fuse_readdir_flags flags) {
+    LOG_FUNC_PATH(ReadDir, path);
     for(const auto& p : {s_sCurrentPath, s_sParentPath}) {
-        filler(buffer, p.data(), NULL, 0, static_cast<fuse_fill_dir_flags>(flags));
+        FillerBuffer(p, buffer, filler);
     }
     const auto dirPath = std::filesystem::path(path);
     const auto& varRes = Find(path);
@@ -121,14 +133,14 @@ int TFileSystem::ReadDir(const char *path, void *buffer, fuse_fill_dir_t filler,
     const auto& var = varRes.value();
 
     return std::visit(SOverloadVariant {
-        [buffer, filler, flags](const TStDirectory& dir) {
-            FillerDirectory(dir, buffer, filler, flags);
+        [buffer, filler](const TStDirectory& dir) {
+            FillerDirectory(dir, buffer, filler);
             return 0;
         },
-        [buffer, filler, flags](const TStLink& link) {
+        [buffer, filler](const TStLink& link) {
             const auto dirRes = FindDir(link->LinkTo);
             if(!dirRes) return PrintErrGetVal(dirRes);
-            FillerDirectory(dirRes.value(), buffer, filler, flags);
+            FillerDirectory(dirRes.value(), buffer, filler);
             return 0;
         },
         [dirPath](const TStFile& file) {
@@ -143,9 +155,8 @@ std::expected<TStFileVariant, TFileSystemVariantException> TFileSystem::Find(con
     if(path.empty() or std::string_view(path.begin()->c_str())!=s_sRootPath) {
         return std::unexpected(TFileObjectNotExistException(path.begin(), path.end()));
     }
-
     auto tempDir = s_pRootDir;
-    for(auto it = ++path.begin();it!=path.end();++it) {
+    for(auto it = ++path.begin(); it != path.end(); ++it) {
         const auto nameStr = std::string_view(it->c_str());
         if(nameStr == s_sSelfPath) {
             return tempDir;
@@ -220,9 +231,13 @@ TWDirectory TFileSystem::GetFileObjectParentDir(const TStFileVariant& var) {
     return std::visit([](const auto& obj) {return obj->ParentDir;}, var);
 }
 
-void TFileSystem::FillerDirectory(const TStDirectory& dir, void* buffer, fuse_fill_dir_t filler, fuse_readdir_flags flags) {
+void TFileSystem::FillerBuffer(const std::string_view& name, void* buffer, fuse_fill_dir_t filler) {
+    filler(buffer, name.data(), NULL, 0, fuse_fill_dir_flags::FUSE_FILL_DIR_PLUS);
+}
+
+void TFileSystem::FillerDirectory(const TStDirectory& dir, void* buffer, fuse_fill_dir_t filler) {
     for(const auto& var : dir->FileVariants) {
         const auto name = GetFileObjectName(var);
-        filler(buffer, name.data(), NULL, 0, static_cast<fuse_fill_dir_flags>(flags));
+        FillerBuffer(name, buffer, filler);
     }
 }

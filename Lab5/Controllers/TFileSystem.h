@@ -35,7 +35,8 @@ class TFileSystem {
     static std::filesystem::path TraverseToRoot(const TStFileVariant& var);
     static std::string_view GetFileObjectName(const TStFileVariant& var);
     static TWDirectory GetFileObjectParentDir(const TStFileVariant& var);
-    static void FillerDirectory(const TStDirectory& dir, void *buffer, fuse_fill_dir_t filler, fuse_readdir_flags flags);
+    static void FillerBuffer(const std::string_view& name , void *buffer, fuse_fill_dir_t filler);
+    static void FillerDirectory(const TStDirectory& dir, void *buffer, fuse_fill_dir_t filler);
 
     private:
     static const TStDirectory s_pRootDir;

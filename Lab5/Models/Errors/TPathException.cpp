@@ -6,7 +6,7 @@
         return m_sMessage.c_str();\
     }                               \
     int T##name##Exception::Value() const noexcept {                      \
-        return errorCode;                                \
+        return -errorCode;                                \
     }
     DECLARE_PATH_EXCEPTION(NotDirectory, ENOTDIR);
     DECLARE_PATH_EXCEPTION(NotLink, ENOLINK);

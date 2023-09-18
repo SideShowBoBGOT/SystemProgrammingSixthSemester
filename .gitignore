@@ -3,5 +3,10 @@
 *.ipynb
 *.html
 *.odt
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+Makefile
+_deps
 */pictures
 document_converter.py
