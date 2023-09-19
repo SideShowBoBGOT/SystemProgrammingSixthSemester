@@ -127,7 +127,11 @@ int TFileSystem::ChMod(const char *path, mode_t mode, struct fuse_file_info *fi)
     LOG_FUNC_PATH(ChMod, path);
     const auto var = Find(path);
     if(!var) return PrintErrGetVal(var.error());
-    std::visit([mode](const auto& p) { p->Info.Mode |= mode; }, var.value());
+    std::visit(SOverloadVariant{
+        [mode](const TStDirectory& p) { p->Info.Mode = mode | S_IFDIR; },
+        [mode](const TStFile& p) { p->Info.Mode = mode | S_IFREG; },
+        [mode](const TStLink& p) { p->Info.Mode = mode | S_IFLNK; },
+    }, var.value());
     return 0;
 }
 
