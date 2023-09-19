@@ -37,6 +37,7 @@ class TFileSystem {
     static TWDirectory GetFileObjectParentDir(const TStFileVariant& var);
     static void FillerBuffer(const std::string_view& name , void *buffer, fuse_fill_dir_t filler);
     static void FillerDirectory(const TStDirectory& dir, void *buffer, fuse_fill_dir_t filler);
+    static void ModifyAttr(const auto& fileObject, struct stat *st);
 
     private:
     static const TStDirectory s_pRootDir;

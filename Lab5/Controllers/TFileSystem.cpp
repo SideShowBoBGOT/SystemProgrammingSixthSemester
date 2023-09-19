@@ -16,14 +16,6 @@ const TStDirectory TFileSystem::s_pRootDir = std::make_shared<SDirectory>("/", n
 
 #define LOG_FUNC_PATH(func, path) std::cout << #func <<": " << path << "\n";
 
-static void ModifyAttr(const auto& fileObject, struct stat *st) {
-    st->st_uid = fileObject->Info.Uid;
-    st->st_gid = fileObject->Info.Gid;
-    st->st_atime = fileObject->Info.Atime;
-    st->st_mtime = fileObject->Info.Mtime;
-    st->st_mode = fileObject->Info.Mode;
-}
-
 int TFileSystem::GetAttr(const char *path, struct stat *st, struct fuse_file_info *fi) {
     LOG_FUNC_PATH(GetAttr, path);
     const auto result = Find(path);
@@ -82,14 +74,12 @@ int TFileSystem::MkDir(const char *path, mode_t mode) {
 int TFileSystem::SymLink(const char *target_path, const char *link_path) {
     LOG_FUNC_PATH(SymLink, target_path);
     LOG_FUNC_PATH(SymLink, link_path);
-    const auto targetRes = Find(target_path);
-    if(!targetRes) return PrintErrGetVal(targetRes);
     const auto linkPath = std::filesystem::path(link_path);
     auto parentDirRes = FindDir(linkPath.parent_path());
     if(!parentDirRes) return PrintErrGetVal(parentDirRes);
     auto& parentDir = parentDirRes.value();
     const auto linkName = linkPath.filename().c_str();
-    parentDir->MakeFileObject<SLink>(linkName, TraverseToRoot(targetRes.value()));
+    parentDir->MakeFileObject<SLink>(linkName, target_path);
     return 0;
 }
 
@@ -240,4 +230,12 @@ void TFileSystem::FillerDirectory(const TStDirectory& dir, void* buffer, fuse_fi
         const auto name = GetFileObjectName(var);
         FillerBuffer(name, buffer, filler);
     }
+}
+
+void TFileSystem::ModifyAttr(const auto& fileObject, struct stat* st) {
+    st->st_uid = fileObject->Info.Uid;
+    st->st_gid = fileObject->Info.Gid;
+    st->st_atime = fileObject->Info.Atime;
+    st->st_mtime = fileObject->Info.Mtime;
+    st->st_mode = fileObject->Info.Mode;
 }
