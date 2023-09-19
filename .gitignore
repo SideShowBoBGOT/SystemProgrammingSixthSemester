@@ -2,7 +2,6 @@
 *.idea
 *.ipynb
 *.html
-*.odt
 CMakeCache.txt
 CMakeFiles
 cmake_install.cmake
@@ -10,4 +9,3 @@ cmake-build-debug
 Makefile
 _deps
 */pictures
-document_converter.py

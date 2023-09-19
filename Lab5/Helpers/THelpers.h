@@ -14,28 +14,17 @@ struct SOverloadVariant : Ts... { using Ts::operator()...; };
 template<class... Ts>
 SOverloadVariant(Ts...) -> SOverloadVariant<Ts...>;
 
-template<class... Ts>
-std::variant<std::weak_ptr<Ts>...> DowngradeVariant(const std::variant<gsl::not_null<std::shared_ptr<Ts>>...>& var) {
-    return std::visit([](const auto& ptr) { return std::variant<std::weak_ptr<Ts>...>(ptr.get()); }, var);
-}
-
-template<class... Ts>
-std::variant<std::weak_ptr<Ts>...> DowngradeVariant(const std::variant<std::shared_ptr<Ts>...>& var) {
-    return std::visit([](const auto& ptr) { return std::variant<std::weak_ptr<Ts>...>(ptr); }, var);
-}
-
-template<class... Ts>
-std::variant<std::shared_ptr<Ts>...> UpgradeVariant(const std::variant<std::weak_ptr<Ts>...>& var) {
-    return std::visit([](const auto& ptr) { return std::variant<std::shared_ptr<Ts>...>(ptr.lock()); }, var);
-}
-
-template<typename T, typename... Errs>
-int PrintErrGetVal(const std::expected<T, std::variant<Errs...>>& result) {
-    const auto& err = result.error();
+template<typename... Errs>
+int PrintErrGetVal(const std::variant<Errs...>& err) {
     return std::visit([](const auto& ex) {
-        std::cout << ex.what() << "\n";
-        return ex.Value();
+        return PrintErrGetVal(ex);
     }, err);
+}
+
+template<typename Exception> requires std::is_base_of_v<std::exception, Exception>
+int PrintErrGetVal(const Exception& ex) {
+    std::cout << ex.what() << "\n";
+    return ex.Value();
 }
 
 template<typename T, typename... Args>
